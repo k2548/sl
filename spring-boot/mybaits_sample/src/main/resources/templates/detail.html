@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>MyBatisサンプル</title>
+</head>
+<body>
+    <h1>コース詳細</h1>
+    <h4>コース名</h4>
+    <p th:text="${course.name}"></p>
+    <h4>コース説明</h4>
+    <p th:text="${course.courseDetail.description}"></p>
+    <h4>チャプターリスト</h4>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>チャプター名</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="chapter : ${course.chapters}">
+                <td th:text="${chapter.id}"></td>
+                <td th:text="${chapter.name}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

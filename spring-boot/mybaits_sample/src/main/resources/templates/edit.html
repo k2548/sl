@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>MyBatisサンプル</title>
+</head>
+<body>
+    <h1>コース編集</h1>
+    <form th:action="@{/course/edit/{id}(id=${id})}" th:object="${courseForm}" th:method="post">
+        <div>
+            <label for="name">コース名</label>
+            <input type="text" id="name" th:field="*{name}">
+        </div>
+        <input type="submit" value="編集">
+    </form>
+</body>
+</html>

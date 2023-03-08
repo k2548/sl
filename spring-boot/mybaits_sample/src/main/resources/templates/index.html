@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>MyBatisサンプル</title>
+</head>
+<body>
+	<h1>検索フォーム</h1>
+    <form th:action="@{/course/list}" th:method="get">
+        <div>
+            <label>コースID</label>
+            <input type="number" name="courseId">
+        </div>
+        <div>
+            <label>コース名</label>
+            <input type="text" name="courseName">
+        </div>
+        <input type="submit" value="検索">
+    </form>
+    <h1>コース一覧</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>名前</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="course : ${courses}">
+                <td th:text="${course.id}"></td>
+                <td th:text="${course.name}"></td>
+                <td>
+                    <form th:action="@{/course/delete/{id}(id=${course.id})}" th:method="post">
+                        <input type="submit" value="削除">
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <h1>新規登録フォーム</h1>
+    <form th:action="@{/course/create}" th:object="${courseForm}" th:method="post">
+        <div>
+            <label>コース名</label>
+            <input type="text" th:field="*{name}">
+        </div>
+        <input type="submit" value="送信">
+    </form>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.CourseMapper">
+    <resultMap type="com.example.entity.Course" id="courseMap">
+        <id column="ID" property="id"/>
+        <result column="NAME" property="name"/>
+        <association property="courseDetail" javaType="com.example.entity.CourseDetail">
+        	<id column="CD_ID" property="id"/>
+        	<result column="DESCRIPTION" property="description"/>
+        </association>
+        <collection property="chapters" ofType="com.example.entity.Chapter">
+        	<id column="CH_ID" property="id"/>
+        	<result column="CH_NAME" property="name"/>
+        </collection>
+    </resultMap>
+
+    <select id="findAll" resultMap="courseMap">
+        SELECT * FROM COURSES
+        <where>
+        	<if test="courseId != null">ID=#{courseId}</if>
+        	<if test="courseName != null">OR NAME=#{courseName}</if>
+        </where>
+    </select>
+    <select id="findById" resultMap="courseMap">
+    	SELECT
+    		C.ID,
+    		C.NAME,
+    		CD.ID AS CD_ID,
+    		CD.DESCRIPTION,
+    		CH.ID AS CH_ID,
+    		CH.NAME AS CH_NAME
+    	FROM COURSES C
+    	INNER JOIN COURSE_DETAILS CD
+    		ON C.ID = CD.COURSES_ID
+    	INNER JOIN CHAPTERS CH
+    		ON C.ID = CH.COURSES_ID
+    	WHERE C.ID = #{id}
+    </select>
+    <insert id="insert" useGeneratedKeys="true" keyColumn="ID" keyProperty="id">
+    	INSERT INTO COURSES (ID,NAME) VALUES (COURSE_ID_SEQ.nextval,#{name})
+    </insert>
+    <update id="update">
+    	UPDATE COURSES SET NAME = #{name} WHERE ID=#{id}
+    </update>
+    <delete id="deleteById">
+    	DELETE FROM COURSES WHERE ID = #{id}
+    </delete>
+</mapper>
